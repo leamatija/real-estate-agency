@@ -1,13 +1,12 @@
 package com.academia.ikub.spring.project.controller;
 
-import com.academia.ikub.spring.project.domain.dto.property.PropertyDTO;
-import com.academia.ikub.spring.project.domain.dto.property.PropertyUpdateDTO;
-import com.academia.ikub.spring.project.domain.dto.property.PropertyViewReqDTO;
-import com.academia.ikub.spring.project.domain.dto.property.SoldPropertiesDTO;
+import com.academia.ikub.spring.project.domain.dto.property.*;
 import com.academia.ikub.spring.project.domain.entity.PropertyStatus;
 import com.academia.ikub.spring.project.domain.mapper.PropertyMapper;
+import com.academia.ikub.spring.project.service.CategoryService;
 import com.academia.ikub.spring.project.service.PropertyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +19,7 @@ import java.util.List;
 public class PropertyController {
 
     private final PropertyService propertyService;
+    private final CategoryService categoryService;
 
     @GetMapping("/list")
     public ResponseEntity<List<PropertyDTO>> listAllProperties(){
@@ -42,6 +42,11 @@ public class PropertyController {
     @PutMapping("/{id}")
     public ResponseEntity<PropertyUpdateDTO> updateProperty (@PathVariable Integer id, @RequestBody PropertyUpdateDTO updateDTO){
         return ResponseEntity.ok(propertyService.updateProperty(id,updateDTO));
+    }
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteProperty(@PathVariable Integer id){
+        propertyService.deleteProperty(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/{id}/related")
     public ResponseEntity<List<PropertyDTO>> getRelatedProperties (@PathVariable Integer id){
@@ -79,9 +84,25 @@ public class PropertyController {
     }
 
     @RolesAllowed("ADMIN")
-    @GetMapping("admin/soldProperties")
+    @GetMapping("/admin/soldProperties")
     public ResponseEntity<List<SoldPropertiesDTO>> listSoldProperties(){
         return ResponseEntity.ok(propertyService.listSoldProperties());
+    }
+
+    @PostMapping("/category/add")
+    public ResponseEntity<CategoryDTO> addCategory(@RequestBody CategoryDTO categoryDTO){
+        return ResponseEntity.ok(categoryService.addCategory(categoryDTO));
+    }
+
+    @DeleteMapping("/category/{categoryId}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Integer categoryId){
+        categoryService.deleteCategory(categoryId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<CategoryDTO>> allCategories(){
+        return ResponseEntity.ok(categoryService.listAllCategories());
     }
 
 

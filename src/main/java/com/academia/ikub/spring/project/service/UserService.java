@@ -3,6 +3,7 @@ package com.academia.ikub.spring.project.service;
 import com.academia.ikub.spring.project.domain.dto.user.UserDTO;
 import com.academia.ikub.spring.project.domain.dto.user.UserUpdateDTO;
 import com.academia.ikub.spring.project.domain.entity.User;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ public interface UserService {
     Void deleteUser(Integer id);
     UserUpdateDTO updateUser(Integer id, UserUpdateDTO userDto);
     UserDTO registerUser (UserDTO userDTO, String userRole);
+    User getUserFromToken(Jwt jwt);
 
 
 

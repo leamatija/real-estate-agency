@@ -10,7 +10,10 @@ import com.academia.ikub.spring.project.domain.mapper.PropertyMapper;
 import com.academia.ikub.spring.project.domain.mapper.PropertyViewReqMapper;
 import com.academia.ikub.spring.project.repository.*;
 import com.academia.ikub.spring.project.service.PropertyService;
+import com.academia.ikub.spring.project.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.security.RolesAllowed;
@@ -25,6 +28,7 @@ public class PropertyServiceImpl implements PropertyService {
     private final PropertyViewRequestRepository pvr;
     private final SoldPropertiesRepository soldPropertiesRepository;
     private final CategoryRepository categoryRepository;
+    private final UserService userService;
 
 
     @Override
@@ -57,6 +61,7 @@ public class PropertyServiceImpl implements PropertyService {
                 String.format("Category with id %s not found",categoryId)));
         Property p = PropertyMapper.toEntity(propertyDTO);
         p.setCategory(category);
+        p.setUser(userService.getUserFromToken((Jwt)SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
         return PropertyMapper.toDto(propertyRepository.save(p));
     }
 
@@ -66,7 +71,6 @@ public class PropertyServiceImpl implements PropertyService {
         Property propertyToUpdate = propertyRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException(
                         String.format("Property with id %s not found",id)));
-
         return PropertyMapper.toUpdateDto(propertyRepository.save(PropertyMapper.toUpdateEntity(propertyDTO,propertyToUpdate)));
     }
 

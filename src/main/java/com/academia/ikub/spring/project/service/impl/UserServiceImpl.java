@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -70,5 +71,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .orElseThrow(()-> new ResourceNotFoundException(
                         String.format("User with email %s not found",email)
                 ));
+    }
+    @Override
+    public User getUserFromToken(Jwt jwt) {
+        String sub = (String) jwt.getClaims().get("sub");
+        return userRepository.findByEmail(sub).get();
     }
 }
