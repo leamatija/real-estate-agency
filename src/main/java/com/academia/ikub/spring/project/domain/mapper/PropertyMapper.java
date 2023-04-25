@@ -19,6 +19,7 @@ public class PropertyMapper {
                 .location(p.getLocation())
                 .imgURL(p.getImgURL())
                 .price(p.getPrice())
+                .createdAt(p.getCreatedAt())
                 .status(p.getStatus().getValue())
                 .categoryDTO(p.getCategory()!=null?dto(p.getCategory()):null)
                 .build();
@@ -31,6 +32,7 @@ public class PropertyMapper {
                 .address(p.getAddress())
                 .description(p.getDescription())
                 .location(p.getLocation())
+                .createdAt(p.getCreatedAt())
                 .imgURL(p.getImgURL())
                 .status(PropertyStatus.fromValue(p.getStatus()))
                 .price(p.getPrice())

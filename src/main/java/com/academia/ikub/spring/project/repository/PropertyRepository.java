@@ -13,4 +13,7 @@ PropertyRepository extends JpaRepository<Property,Integer> {
 
     @Query(name = "property_findPropertyByCategory")
     List<Property> findByCategoryId (Integer categoryId);
+    List<Property> findAllByPrice(Long price);
+    List<Property> findAllByLocation(String location);
+
 }

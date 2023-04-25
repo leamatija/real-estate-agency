@@ -104,6 +104,20 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
+    public List<PropertyDTO> findAllByPrice(Long price) {
+        return propertyRepository.findAllByPrice(price)
+                .stream().map(PropertyMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PropertyDTO> findAllByLocation(String location) {
+        return propertyRepository.findAllByLocation(location)
+                .stream().map(PropertyMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public PropertyViewReqDTO requestPropertyView(Integer propertyId, PropertyViewReqDTO reqDTO) {
         PropertyViewRequest p = PropertyViewReqMapper.toEntity(reqDTO);
         p.setUser(userRepository.findById(reqDTO.getUserId()).orElseThrow(()-> new ResourceNotFoundException(

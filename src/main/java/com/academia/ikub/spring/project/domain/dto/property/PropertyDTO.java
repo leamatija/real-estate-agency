@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,4 +22,5 @@ public class PropertyDTO {
     private String imgURL;
     private CategoryDTO categoryDTO;
     private Double price;
+    private LocalDateTime createdAt;
 }

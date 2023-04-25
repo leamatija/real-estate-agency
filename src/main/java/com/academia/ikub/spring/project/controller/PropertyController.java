@@ -30,6 +30,14 @@ public class PropertyController {
         PropertyDTO p = PropertyMapper.toDto(propertyService.findById(id));
         return ResponseEntity.ok(p);
     }
+    @GetMapping("/{price}")
+    public ResponseEntity<List<PropertyDTO>> findByCity(@PathVariable Long price){
+        return ResponseEntity.ok(propertyService.findAllByPrice(price));
+    }
+    @GetMapping("/{location}")
+    public ResponseEntity<List<PropertyDTO>>findByLocation(@PathVariable String location){
+        return ResponseEntity.ok(propertyService.findAllByLocation(location));
+    }
 
     @GetMapping("/{userId}/list")
     public ResponseEntity<List<PropertyDTO>> getPropertiesByUserId(@PathVariable Integer userId){
