@@ -30,11 +30,11 @@ public class PropertyController {
         PropertyDTO p = PropertyMapper.toDto(propertyService.findById(id));
         return ResponseEntity.ok(p);
     }
-    @GetMapping("/{price}")
-    public ResponseEntity<List<PropertyDTO>> findByCity(@PathVariable Long price){
+    @GetMapping("/price/{price}")
+    public ResponseEntity<List<PropertyDTO>> findByPrice(@PathVariable Long price){
         return ResponseEntity.ok(propertyService.findAllByPrice(price));
     }
-    @GetMapping("/{location}")
+    @GetMapping("/location/{location}")
     public ResponseEntity<List<PropertyDTO>>findByLocation(@PathVariable String location){
         return ResponseEntity.ok(propertyService.findAllByLocation(location));
     }
@@ -43,15 +43,18 @@ public class PropertyController {
     public ResponseEntity<List<PropertyDTO>> getPropertiesByUserId(@PathVariable Integer userId){
         return ResponseEntity.ok(propertyService.getPropertiesByUserId(userId));
     }
+    @RolesAllowed({"SELLER","ADMIN"})
     @PostMapping("/add/{categoryId}")
     public ResponseEntity<PropertyDTO> addProperty (@RequestBody PropertyDTO propertyDTO,@PathVariable Integer categoryId ){
         return ResponseEntity.ok(propertyService.addProperty(propertyDTO,categoryId));
     }
+    @RolesAllowed({"SELLER","ADMIN"})
     @PutMapping("/{id}")
     public ResponseEntity<PropertyUpdateDTO> updateProperty (@PathVariable Integer id, @RequestBody PropertyUpdateDTO updateDTO){
         return ResponseEntity.ok(propertyService.updateProperty(id,updateDTO));
     }
-    @GetMapping("/delete/{id}")
+    @RolesAllowed({"SELLER","ADMIN"})
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteProperty(@PathVariable Integer id){
         propertyService.deleteProperty(id);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -60,8 +63,9 @@ public class PropertyController {
     public ResponseEntity<List<PropertyDTO>> getRelatedProperties (@PathVariable Integer id){
         return ResponseEntity.ok(propertyService.getRelatedProperties(id));
     }
+    @RolesAllowed({"SELLER","ADMIN"})
     @GetMapping("/{id}/status")
-    public ResponseEntity<PropertyStatus> setPropertyStatus (@PathVariable Integer id, @RequestParam String status){
+    public ResponseEntity<PropertyStatus> setPropertyStatus (@PathVariable Integer id, @RequestParam(required = false)String status){
         return ResponseEntity.ok(propertyService.setPropertyStatus(id,status));
     }
     @GetMapping("/categories/{categoryId}")
@@ -74,7 +78,7 @@ public class PropertyController {
     }
 
     @RolesAllowed("ADMIN")
-    @GetMapping("/admin/viewRequests/{reqId}/sold")
+    @PostMapping("/admin/viewRequests/{reqId}/sold")
     public ResponseEntity<SoldPropertiesDTO>  addSoldProperty (@PathVariable Integer reqId){
         return ResponseEntity.ok(propertyService.addSoldProperty(reqId));
     }
@@ -97,16 +101,19 @@ public class PropertyController {
         return ResponseEntity.ok(propertyService.listSoldProperties());
     }
 
+    @RolesAllowed("ADMIN")
     @PostMapping("/category/add")
     public ResponseEntity<CategoryDTO> addCategory(@RequestBody CategoryDTO categoryDTO){
         return ResponseEntity.ok(categoryService.addCategory(categoryDTO));
     }
 
+    @RolesAllowed("ADMIN")
     @DeleteMapping("/category/{categoryId}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Integer categoryId){
         categoryService.deleteCategory(categoryId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @GetMapping("/categories")
     public ResponseEntity<List<CategoryDTO>> allCategories(){
