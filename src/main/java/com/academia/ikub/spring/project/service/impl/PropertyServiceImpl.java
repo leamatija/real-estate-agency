@@ -12,6 +12,7 @@ import com.academia.ikub.spring.project.repository.*;
 import com.academia.ikub.spring.project.service.PropertyService;
 import com.academia.ikub.spring.project.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public List<PropertyDTO> listAllProperties() {
-        return propertyRepository.findAll()
+        return propertyRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"))
                 .stream()
                 .map(PropertyMapper::toDto)
                 .collect(Collectors.toList());
@@ -104,8 +105,8 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public List<PropertyDTO> findAllByPrice(Long price) {
-        return propertyRepository.findAllByPrice(price)
+    public List<PropertyDTO> findAllByPrice(Double price) {
+        return propertyRepository.findAllByPriceGreaterThanEqual(price)
                 .stream().map(PropertyMapper::toDto)
                 .collect(Collectors.toList());
     }

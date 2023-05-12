@@ -19,7 +19,7 @@ public interface PropertyService {
     Void deleteProperty (Integer id);
     List<PropertyDTO> getRelatedProperties(Integer id);
     List<PropertyDTO> findPropertyByCategory(Integer categoryId);
-    List<PropertyDTO> findAllByPrice(Long price);
+    List<PropertyDTO> findAllByPrice(Double price);
     List<PropertyDTO> findAllByLocation(String location);
     PropertyViewReqDTO requestPropertyView (Integer propertyId, PropertyViewReqDTO reqDTO);
     List<PropertyViewReqDTO> getAllPropertyViewRequests();

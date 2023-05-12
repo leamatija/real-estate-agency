@@ -35,7 +35,7 @@ public class PropertyControllerTest extends BaseTest {
     public void test_findPropertyById_ok() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(getAuthentication("ROLE_ADMIN"));
         Property fakeProperty = new Property();
-        fakeProperty.setStatus(PropertyStatus.ON_SALE);
+        fakeProperty.setStatus(PropertyStatus.FOR_SALE);
         doReturn(fakeProperty).when(propertyService).findById(any());
         mockMvc.perform(MockMvcRequestBuilders.get("/properties/1"))
                 .andExpect(status().isOk());
@@ -164,7 +164,7 @@ public class PropertyControllerTest extends BaseTest {
     public void test_findByPrice_ok() throws Exception{
         SecurityContextHolder.getContext().setAuthentication(getAuthentication("ROLE_BUYER"));
         List<PropertyDTO> fakeList=new ArrayList<>();
-        doReturn(fakeList).when(propertyService).findAllByPrice(anyLong());
+        doReturn(fakeList).when(propertyService).findAllByPrice(anyDouble());
         mockMvc.perform(MockMvcRequestBuilders.get("/properties/price/2223"))
                 .andExpect(status().isOk());
     }

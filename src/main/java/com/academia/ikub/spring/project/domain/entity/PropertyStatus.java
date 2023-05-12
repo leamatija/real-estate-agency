@@ -7,7 +7,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum PropertyStatus {
 
-    ON_SALE("ON_SALE"),
+    FOR_SALE("FOR_SALE"),
     SOLD("SOLD"),
     FOR_RENT("FOR_RENT");
 

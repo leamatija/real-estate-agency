@@ -25,13 +25,14 @@ public class PropertyController {
     public ResponseEntity<List<PropertyDTO>> listAllProperties(){
         return ResponseEntity.ok(propertyService.listAllProperties());
     }
+    @RolesAllowed({"SELLER","ADMIN"})
     @GetMapping("/{id}")
     public ResponseEntity<PropertyDTO> findById (@PathVariable Integer id){
         PropertyDTO p = PropertyMapper.toDto(propertyService.findById(id));
         return ResponseEntity.ok(p);
     }
     @GetMapping("/price/{price}")
-    public ResponseEntity<List<PropertyDTO>> findByPrice(@PathVariable Long price){
+    public ResponseEntity<List<PropertyDTO>> findByPrice(@PathVariable Double price){
         return ResponseEntity.ok(propertyService.findAllByPrice(price));
     }
     @GetMapping("/location/{location}")

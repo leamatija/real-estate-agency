@@ -59,7 +59,7 @@ public class PropertyServiceTest extends BaseTest {
         SecurityContextHolder.getContext().setAuthentication(getAuthentication("ROLE_SELLER"));
         Mockito.doReturn(Optional.of( new Property())).when(propertyRepository).findById(Mockito.anyInt());
         Property fakeUpdate= new Property();
-        fakeUpdate.setStatus(PropertyStatus.ON_SALE);
+        fakeUpdate.setStatus(PropertyStatus.FOR_SALE);
         Mockito.doReturn(fakeUpdate).when(propertyRepository).save(Mockito.any());
         PropertyUpdateDTO fakeDto = new PropertyUpdateDTO();
         fakeDto.setStatus("ON_SALE");
